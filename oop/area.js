@@ -1,4 +1,9 @@
+
 class Area{ 
+/**
+ * 
+ * @param {string} ClassName - class név, amit a div elemhez szeretnénk rendelni 
+ */
 constructor(ClassName){ // konstruktor, ami létrehozza az Area objektumot a megadott class névvel
 
     if(!containsDiv){ // ha a body nem tartalmaz div elemet
