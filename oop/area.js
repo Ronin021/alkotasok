@@ -117,6 +117,11 @@ class Table extends Area{ // a Table osztály, ami öröklődik az Area osztály
 
 class Form extends Area{ // a Form osztály, ami öröklődik az Area osztályból
 /**
+ * * @type {FormField[]}
+ */
+#tombInput; // privát változó, ami tárolja a form elemeket
+
+/**
  * 
  * @param {string} CssClass - class név, amit a form elemhez szeretnénk rendelni 
  * @param {{fieldid: string, fieldLabel: string}[]} Lista - a lista elemei, amik a form elemeket tartalmazzák
@@ -124,6 +129,8 @@ class Form extends Area{ // a Form osztály, ami öröklődik az Area osztályb�
  */
     constructor(CssClass, ListaOOP, manager){ // konstruktor, ami létrehozza a Form objektumot a megadott class névvel
         super(CssClass,  manager); // meghívja az Area osztály konstruktorát
+
+        this.#tombInput = []; // inicializálja a tombInput tömböt üresen
 
         const form = document.createElement('form'); // létrehoz egy új form elemet
         this.div.appendChild(form); // a div-hez hozzáadja a létrehozott form elemet
@@ -165,4 +172,80 @@ class Form extends Area{ // a Form osztály, ami öröklődik az Area osztályb�
         })
 
     }
+}
+
+class FormField{ // a FormField osztály, ami a form elemeket reprezentálja
+/**
+ * @type {string}
+ */
+   #id // privát változó, ami tárolja az input id-t
+
+/**
+ * @type {HTMLElement}
+ * */
+   #inputitem; // privát változó, ami tárolja az input elemet
+
+/**
+ * @type {HTMLElement}
+ * */
+   #labelitem // privát változó, ami tárolja a label elemet
+
+/**
+ * @type {HTMLElement}
+ * */
+   #hibaitem; // privát változó, ami tárolja a hiba üzenetet
+
+ /**
+  * @returns {string} - visszaadja az input id-t
+  */
+   get id(){ // getter, ami visszaadja az input id-t
+    return this.#id; // visszaadja a privát változót
+   }
+
+   /**
+    * @returns {string} - visszaadja az input elemet
+    */
+   get value(){ // getter, ami visszaadja az input elem értékét
+    return this.#inputitem.value; // visszaadja az input elem értékét
+   }
+
+   set error(value){ // setter, ami beállítja a hiba üzenetet
+    this.#hibaitem.textContent = value; // beállítja a hiba üzenetet
+
+   }
+
+
+   /**
+    * 
+    * @param {string} id - az input id-ja 
+    * @param {string} labelContent - a label szövege
+    */
+   constructor(id, labelContent){ // konstruktor, ami létrehozza a FormField objektumot a megadott id és labelContent értékekkel
+    this.#id = id; // beállítja az input id-t
+    this.#inputitem = document.createElement('input'); // létrehoz egy új input elemet
+    this.#inputitem.id = id; // beállítja az input id attribútumát
+
+
+    this.#labelitem = document.createElement('label'); // létrehoz egy új label elemet
+    this.#labelitem.htmlFor = id; // beállítja a label htmlFor attribútumát
+    this.#labelitem.textContent = labelContent; // beállítja a label szövegét
+   
+   
+    this.#hibaitem = document.createElement('span'); // létrehoz egy új span elemet, ami a hiba üzenetet tartalmazza
+    this.#hibaitem.className = 'error'; // beállítja a span class nevét
+   }
+
+
+   getDiv(){ // getter, ami visszaadja a div elemet
+    const MadeFieldDiv = makeDiv('field'); // létrehoz egy új div elemet a 'field' class névvel
+
+    const br1 = document.createElement('br'); // létrehoz egy új br elemet
+    const br2 = document.createElement('br'); // létrehoz egy új br elemet
+
+    const elemek = [this.#labelitem, br1, this.#inputitem, br2, this.#hibaitem]; // létrehoz egy tömböt, ami tartalmazza a label, input és hiba elemeket
+    for (const elem of elemek) { // végigmegy a tömb elemein
+        MadeFieldDiv.appendChild(elem); // a fieldDiv-hez hozzáadja a létrehozott elemet
+    }
+    return MadeFieldDiv; // visszaadja a létrehozott div elemet
+}
 }
