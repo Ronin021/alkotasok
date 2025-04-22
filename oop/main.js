@@ -7,5 +7,7 @@ const ListaOOP = [ // a lista elemei, amik a form elemeket tartalmazzák
     {fieldid: 'cim', fieldLabel: 'Cim' } // a lista elemei, amik a form elemeket tartalmazzák
 ]
 
+
+const manager = new Manager(); // létrehoz egy új Manager objektumot
 const table = new Table('table'); // létrehoz egy új Table elemet a 'table' class névvel
 const oopForm = new Form('form', ListaOOP); // létrehoz egy új Form elemet a 'form' class névvel
