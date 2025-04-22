@@ -31,5 +31,37 @@ defaultTable.appendChild(tableBody); // a defaultTable-hez hozzáadja a létreho
 
 const formDiv = makeDiv('form'); // létrehoz egy új div elemet a 'form' class névvel
 
+const form = document.createElement('form'); // létrehoz egy új form elemet
+formDiv.appendChild(form); // a formDiv-hez hozzáadja a létrehozott form elemet
+
+const Lista = [
+    {fieldid: 'szerzo', fieldLabel: 'Szerzo' }, // a lista elemei, amik a form elemeket tartalmazzák
+    {fieldid: 'mufaj', fieldLabel: 'Mufaj' }, // a lista elemei, amik a form elemeket tartalmazzák
+    {fieldid: 'cim', fieldLabel: 'Cim' } // a lista elemei, amik a form elemeket tartalmazzák
+]
+
+for (const field of Lista) { // végigmegy a lista elemein
+    
+    const fieldDiv = makeDiv('field'); // létrehoz egy új div elemet a 'field' class névvel
+    form.appendChild(fieldDiv); // a form-hoz hozzáadja a létrehozott fieldDiv elemet
+    
+    
+    const label = document.createElement('label'); // létrehoz egy új label elemet
+    label.htmlFor = field.fieldid; // beállítja a label htmlFor attribútumát
+    label.textContent = field.fieldLabel; // beállítja a label szövegét
+    fieldDiv.appendChild(label); // a fieldDiv-hez hozzáadja a létrehozott label elemet
+
+    const input = document.createElement('input'); // létrehoz egy új input elemet
+    input.id = field.fieldid; // beállítja az input id attribútumát
+    fieldDiv.appendChild(dovument.createElement('br')); // létrehoz egy új br elemet és hozzáadja a fieldDiv-hez
+    fieldDiv.appendChild(input); // a fieldDiv-hez hozzáadja a létrehozott input elemet
+
+}
+
+const submitButton = document.createElement('button'); // létrehoz egy új button elemet
+submitButton.textContent = 'Hozzaadas'; // beállítja a button szövegét
+form.appendChild(submitButton); // a form-hoz hozzáadja a létrehozott button elemet
+
+
 containerDiv.appendChild(tableDiv); // a containerDiv-hez hozzáadja a tableDiv elemet
 containerDiv.appendChild(formDiv); // a containerDiv-hez hozzáadja a formDiv elemet
