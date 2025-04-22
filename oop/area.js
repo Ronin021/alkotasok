@@ -16,21 +16,34 @@ get div(){ // getter, ami visszaadja a div elemet
  * @param {string} ClassName - class név, amit a div elemhez szeretnénk rendelni 
  */
 constructor(ClassName) { // konstruktor, ami létrehozza az Area objektumot a megadott class névvel
-    const containsDiv = document.querySelector('.oopcontainer'); // ellenőrzi, hogy létezik-e már ilyen div
+    
+    const container = this.#getContainerDiv(); // meghívja a getContainerDiv() függvényt, ami létrehozza a containerDiv elemet, ha még nem létezik
+    this.#div = document.createElement('div'); // létrehoz egy új div elemet
+    this.#div.className = ClassName; // beállítja a class nevét
+    container.appendChild(this.#div); // a containerDiv-hez hozzáadja a létrehozott div elemet
+}
 
+/**
+ * 
+ * @returns {HTMLElement} - visszaadja a containerDiv elemet
+ */
+    #getContainerDiv() { // egy privát függvény, ami létrehozza a containerDiv elemet, ha még nem létezik
+    let containsDiv = document.querySelector('.oopcontainer'); // ellenőrzi, hogy létezik-e már ilyen div
     if (!containsDiv) { // ha a body nem tartalmaz div elemet
         const containerDiv = document.createElement('div'); // létrehoz egy új div elemet
         containerDiv.className = 'oopcontainer'; // beállítja a class nevét
         document.body.appendChild(containerDiv); // a body-hoz hozzáadja a létrehozott div elemet
+        containsDiv = containerDiv; // frissíti a containsDiv változót az újonnan létrehozott div-re
     }
-
-    this.#div = document.createElement('div'); // létrehoz egy új div elemet
-    this.#div.className = ClassName; // beállítja a class nevét
-    document.querySelector('.oopcontainer').appendChild(this.#div); // a containerDiv-hez hozzáadja a létrehozott div elemet    
+    return containsDiv; // visszaadja a containerDiv elemet
 }
 
 
+
 }
+
+
+
 
 class Table extends Area{ // a Table osztály, ami öröklődik az Area osztályból
 /**
@@ -40,6 +53,12 @@ class Table extends Area{ // a Table osztály, ami öröklődik az Area osztály
     constructor(CssClass){ // konstruktor, ami létrehozza a Table objektumot a megadott class névvel
         super(CssClass); // meghívja az Area osztály konstruktorát
 
+        const tabla = this.#makeTable(); // meghívja a makeTable() függvényt, ami létrehozza a table elemet
+    }
+/**
+ * @returns {HTMLElement} - visszaadja a table elemet
+ */
+    #makeTable(){ // egy privát függvény, ami létrehozza a table elemet
         const table = document.createElement('table'); // létrehoz egy új table elemet
         this.div.appendChild(table); // a div-hez hozzáadja a létrehozott table elemet
 
@@ -57,6 +76,7 @@ class Table extends Area{ // a Table osztály, ami öröklődik az Area osztály
         }
         const tableBody = document.createElement('tbody'); // létrehoz egy új tbody elemet
         table.appendChild(tableBody); // a table-hez hozzáadja a létrehozott tbody elemet
+        return tableBody; // visszaadja a létrehozott tbody elemet
     }
 }
 
@@ -64,18 +84,15 @@ class Form extends Area{ // a Form osztály, ami öröklődik az Area osztályb�
 /**
  * 
  * @param {string} CssClass - class név, amit a form elemhez szeretnénk rendelni 
+ * @param {{fieldid: string, fieldLabel: string}[]} Lista - a lista elemei, amik a form elemeket tartalmazzák
  */
     constructor(CssClass){ // konstruktor, ami létrehozza a Form objektumot a megadott class névvel
-        super(CssClass); // meghívja az Area osztály konstruktorát
+        super(CssClass, ListaOOP); // meghívja az Area osztály konstruktorát
 
         const form = document.createElement('form'); // létrehoz egy új form elemet
         this.div.appendChild(form); // a div-hez hozzáadja a létrehozott form elemet
 
-        const Lista = [ // a lista elemei, amik a form elemeket tartalmazzák
-            {fieldid: 'szerzo', fieldLabel: 'Szerzo' }, // a lista elemei, amik a form elemeket tartalmazzák
-            {fieldid: 'mufaj', fieldLabel: 'Mufaj' }, // a lista elemei, amik a form elemeket tartalmazzák
-            {fieldid: 'cim', fieldLabel: 'Cim' } // a lista elemei, amik a form elemeket tartalmazzák
-        ]
+        
 
         for (const field of Lista) { // végigmegy a lista elemein
             
