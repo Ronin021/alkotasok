@@ -53,11 +53,18 @@ for (const field of Lista) { // végigmegy a lista elemein
     label.htmlFor = field.fieldid; // beállítja a label htmlFor attribútumát
     label.textContent = field.fieldLabel; // beállítja a label szövegét
     fieldDiv.appendChild(label); // a fieldDiv-hez hozzáadja a létrehozott label elemet
+    fieldDiv.appendChild(document.createElement('br')); // létrehoz egy új br elemet és hozzáadja a fieldDiv-hez
 
     const input = document.createElement('input'); // létrehoz egy új input elemet
     input.id = field.fieldid; // beállítja az input id attribútumát
     fieldDiv.appendChild(document.createElement('br')); // létrehoz egy új br elemet és hozzáadja a fieldDiv-hez
     fieldDiv.appendChild(input); // a fieldDiv-hez hozzáadja a létrehozott input elemet
+
+    fieldDiv.appendChild(document.createElement('br')); // létrehoz egy új br elemet és hozzáadja a fieldDiv-hez
+ const error = document.createElement('span'); // létrehoz egy új span elemet
+ error.className = 'error'; // beállítja a span class nevét
+ fieldDiv.appendChild(error); // a fieldDiv-hez hozzáadja a létrehozott span elemet
+
 
 }
 
@@ -68,10 +75,36 @@ form.appendChild(submitButton); // a form-hoz hozzáadja a létrehozott button e
 form.addEventListener('submit', (event) => { // eseménykezelő, ami akkor fut le, amikor a formot elküldik
     event.preventDefault(); // megakadályozza az alapértelmezett form elküldést
     const Objectvalue = {}; // létrehoz egy új objektumot, ami a form adatait tartalmazza
+    let valid = true; // egy változó, ami azt jelzi, hogy az űrlap érvényes-e
+   
+   
+   
+   
     const bemenet = event.target.querySelectorAll('input'); // lekéri az összes input elemet a formból
     for (const input of bemenet) { // végigmegy az input elemek tömbjén
-        Objectvalue[input.id] = input.value; // beállítja az objektum értékeit az input id és value alapján
+        const error = input.parentElement.querySelector('.error'); // lekéri a span elemet, ami az inputhoz tartozik
+        if(!error){ // ha nincs error elem
+            console.error('Nincs error elem'); // hibaüzenet a konzolra
+return; // kilép a függvényből
     }
+
+
+    error.textContent = ''; // törli az error üzenetet
+
+    if (input.value === '') { // ha az input értéke üres
+        error.textContent = 'Kötelező mező'; // beállítja az error üzenetet
+        valid = false; // az űrlap nem érvényes
+
+    }
+    Objectvalue[input.id] = input.value; // beállítja az objektum mezőit az input elemek értékeivel
+    }
+
+    if (!valid) { // ha az űrlap nem érvényes
+    
+
+    
+
+
     array.push(Objectvalue); // hozzáadja az objektumot a tömbhöz
 
     const tableRow = document.createElement('tr'); // létrehoz egy új tr elemet
@@ -88,6 +121,8 @@ form.addEventListener('submit', (event) => { // eseménykezelő, ami akkor fut l
     const cimTd = document.createElement('td'); // létrehoz egy új td elemet
     cimTd.innerText = Objectvalue.cim; // beállítja a td elem szövegét
     tableRow.appendChild(cimTd); // a tableRow-hoz hozzáadja a létrehozott td elemet
+}
+
 })
 
 
