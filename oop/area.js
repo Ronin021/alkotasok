@@ -1,4 +1,3 @@
-
 class Area{ 
 /**
  * @param {HTMLDivElement}
@@ -16,9 +15,10 @@ get div(){ // getter, ami visszaadja a div elemet
  * 
  * @param {string} ClassName - class név, amit a div elemhez szeretnénk rendelni 
  */
-constructor(ClassName){ // konstruktor, ami létrehozza az Area objektumot a megadott class névvel
+constructor(ClassName) { // konstruktor, ami létrehozza az Area objektumot a megadott class névvel
+    const containsDiv = document.querySelector('.oopcontainer'); // ellenőrzi, hogy létezik-e már ilyen div
 
-    if(!containsDiv){ // ha a body nem tartalmaz div elemet
+    if (!containsDiv) { // ha a body nem tartalmaz div elemet
         const containerDiv = document.createElement('div'); // létrehoz egy új div elemet
         containerDiv.className = 'oopcontainer'; // beállítja a class nevét
         document.body.appendChild(containerDiv); // a body-hoz hozzáadja a létrehozott div elemet
@@ -26,7 +26,7 @@ constructor(ClassName){ // konstruktor, ami létrehozza az Area objektumot a meg
 
     this.#div = document.createElement('div'); // létrehoz egy új div elemet
     this.#div.className = ClassName; // beállítja a class nevét
-    containerDiv.appendChild(this.#div); // a containerDiv-hez hozzáadja a létrehozott div elemet    
+    document.querySelector('.oopcontainer').appendChild(this.#div); // a containerDiv-hez hozzáadja a létrehozott div elemet    
 }
 
 
@@ -93,7 +93,7 @@ class Form extends Area{ // a Form osztály, ami öröklődik az Area osztályb�
             fieldDiv.appendChild(input); // a fieldDiv-hez hozzáadja a létrehozott input elemet
         }
         const button = document.createElement('button'); // létrehoz egy új button elemet
-        button.textContent = 'submit'; // beállítja a button típusát 
+        button.textContent = 'Hozzáadás'; // beállítja a button szövegét
         form.appendChild(button); // a form-hoz hozzáadja a létrehozott button elemet
     }
 }

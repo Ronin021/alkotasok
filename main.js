@@ -1,3 +1,6 @@
+const array = [] // egy tömb, ami a könyvek adatait tartalmazza
+
+
 /**
  * 
  * @param {string} className - class név, amit a div elemhez szeretnénk rendelni
@@ -53,7 +56,7 @@ for (const field of Lista) { // végigmegy a lista elemein
 
     const input = document.createElement('input'); // létrehoz egy új input elemet
     input.id = field.fieldid; // beállítja az input id attribútumát
-    fieldDiv.appendChild(dovument.createElement('br')); // létrehoz egy új br elemet és hozzáadja a fieldDiv-hez
+    fieldDiv.appendChild(document.createElement('br')); // létrehoz egy új br elemet és hozzáadja a fieldDiv-hez
     fieldDiv.appendChild(input); // a fieldDiv-hez hozzáadja a létrehozott input elemet
 
 }
@@ -61,6 +64,32 @@ for (const field of Lista) { // végigmegy a lista elemein
 const submitButton = document.createElement('button'); // létrehoz egy új button elemet
 submitButton.textContent = 'Hozzaadas'; // beállítja a button szövegét
 form.appendChild(submitButton); // a form-hoz hozzáadja a létrehozott button elemet
+
+form.addEventListener('submit', (event) => { // eseménykezelő, ami akkor fut le, amikor a formot elküldik
+    event.preventDefault(); // megakadályozza az alapértelmezett form elküldést
+    const Objectvalue = {}; // létrehoz egy új objektumot, ami a form adatait tartalmazza
+    const bemenet = event.target.querySelectorAll('input'); // lekéri az összes input elemet a formból
+    for (const input of bemenet) { // végigmegy az input elemek tömbjén
+        Objectvalue[input.id] = input.value; // beállítja az objektum értékeit az input id és value alapján
+    }
+    array.push(Objectvalue); // hozzáadja az objektumot a tömbhöz
+
+    const tableRow = document.createElement('tr'); // létrehoz egy új tr elemet
+    tableBody.appendChild(tableRow); // a tableBody-hoz hozzáadja a létrehozott tr elemet
+
+    const szerzoTd = document.createElement('td'); // létrehoz egy új td elemet
+    szerzoTd.innerText = Objectvalue.szerzo; // beállítja a td elem szövegét
+    tableRow.appendChild(szerzoTd); // a tableRow-hoz hozzáadja a létrehozott td elemet
+
+    const mufajTd = document.createElement('td'); // létrehoz egy új td elemet
+    mufajTd.innerText = Objectvalue.mufaj; // beállítja a td elem szövegét
+    tableRow.appendChild(mufajTd); // a tableRow-hoz hozzáadja a létrehozott td elemet
+
+    const cimTd = document.createElement('td'); // létrehoz egy új td elemet
+    cimTd.innerText = Objectvalue.cim; // beállítja a td elem szövegét
+    tableRow.appendChild(cimTd); // a tableRow-hoz hozzáadja a létrehozott td elemet
+})
+
 
 
 containerDiv.appendChild(tableDiv); // a containerDiv-hez hozzáadja a tableDiv elemet
