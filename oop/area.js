@@ -74,7 +74,7 @@ class Table extends Area{ // a Table osztály, ami öröklődik az Area osztály
     this.manager.setaddSzerzoCallback((adatok) => { // beállítja a callback függvényt, ami új adat hozzáadásakor hívódik meg
 this.#createRows(tabla, adatok); // meghívja a createRows() függvényt, ami létrehozza a sorokat a táblázatban
     })
-
+    
     this.manager.setRenderTableCallback((adatokTomb) => {
         // Töröld a teljes táblázatot
         tabla.innerHTML = '';
