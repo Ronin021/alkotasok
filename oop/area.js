@@ -160,15 +160,27 @@ class Form extends Area{ // a Form osztály, ami öröklődik az Area osztályb�
         form.addEventListener('submit', (event) => { // eseménykezelő, ami akkor hívódik meg, amikor a formot elküldik
             event.preventDefault(); // megakadályozza az alapértelmezett űrlap elküldést
 
-            const inputList = event.target.querySelectorAll('input'); // lekéri az összes input elemet a formon belül
             const ObjectvalueOOP = {}; // létrehoz egy új objektumot, ami a form adatait tartalmazza
 
-            for (const input of inputList) { // végigmegy az input elemek listáján
-                ObjectvalueOOP[input.id] = input.value; // beállítja az objektum mezőit az input elemek értékeivel
+           let validOOP = true; // inicializálja a validOOP változót igazra
+            for (const errorfield of this.#tombInput) { // végigmegy a tombInput elemein
+
+                errorfield.error = ''; // törli a hiba üzenetet
+                if(errorfield.value === '') { // ha az input értéke üres
+                    errorfield.error = 'Kötelező mező!'; // beállítja a hiba üzenetet
+                    validOOP = false; // beállítja a validOOP változót hamisra
+                }
+                ObjectvalueOOP[errorfield.id] = errorfield.value; // beállítja az objektum értékét az input értékére
             }
 
-            const adat = new Adat(ObjectvalueOOP.szerzo, ObjectvalueOOP.mufaj, ObjectvalueOOP.cim); // létrehoz egy új Adat objektumot a megadott értékekkel
-            this.manager.addSzerzo(adat); // hozzáadja az új adatot a managerhez
+            if (validOOP) { // ha a validOOP változó igaz
+                const oopadat = new Adat(ObjectvalueOOP.szerzo, ObjectvalueOOP.mufaj, ObjectvalueOOP.cim); // létrehoz egy új Adat objektumot a megadott értékekkel
+                this.manager.addSzerzo(oopadat); // hozzáadja az új adatot a managerhez
+            }
+
+
+
+           
         })
 
     }
