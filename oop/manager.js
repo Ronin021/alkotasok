@@ -9,8 +9,7 @@
  * @returns {void}
  */
 /**
- * nagyobbe az adat1 az adat2nél
- * @callback nagyobbE
+ * @callback sorrend
  * @param {Adat} adat1 
  * @param {Adat} adat2
  * @returns {boolean}
