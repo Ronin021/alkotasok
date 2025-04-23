@@ -186,6 +186,44 @@ class Form extends Area{ // a Form osztály, ami öröklődik az Area osztályb�
     }
 }
 
+class Uploader extends Area{ // a Uploader osztály, ami öröklődik az Area osztályból
+/**
+ * 
+ * @param {string} CssClass - class név, amit a
+ * @param {Manager} manager - a manager objektum, ami kezeli az adatokat
+ * */
+ 
+    constructor(CssClass, manager){ // konstruktor, ami létrehozza az Uploader objektumot a megadott class névvel
+        super(CssClass, manager); // meghívja az Area osztály konstruktorát
+
+        const uploader = document.createElement('input'); // létrehoz egy új input elemet
+        uploader.id = 'uploader'; // beállítja az input id attribútumát
+        uploader.type = 'file'; // beállítja az input type attribútumát
+        this.div.appendChild(uploader); // a div-hez hozzáadja a létrehozott input elemet
+
+        uploader.addEventListener('change', (event) => { // eseménykezelő, ami akkor hívódik meg, amikor a fájl kiválasztásra kerül
+            const file = event.target.files[0]; // lekéri az első fájlt a kiválasztott fájlok közül
+            const reader = new FileReader(); // létrehoz egy új FileReader objektumot
+
+            reader.onload = () => { // eseménykezelő, ami akkor hívódik meg, amikor a fájl betöltődött
+                const fileContent = reader.result.split('\n'); // a fájl tartalmát sorokra bontja
+                const withoutheader = fileContent.slice(1); // eltávolítja az első sort (fejléc)
+                for (const sor of withoutheader) { // végigmegy a sorokon
+                    const cleansor = sor.trim(); // eltávolítja a felesleges szóközöket a sor elejéről és végéről
+                    const soradat = cleansor.split(';'); // a sort pontosvesszők mentén bontja fel
+
+                    const adat = new Adat(soradat[0], soradat[1], soradat[2]); // létrehoz egy új Adat objektumot a megadott értékekkel
+                    this.manager.addSzerzo(adat); // hozzáadja az új adatot a managerhez
+                }
+            }
+            reader.readAsText(file); // beolvassa a fájlt szövegként
+        })
+    }
+}
+
+
+
+
 class FormField{ // a FormField osztály, ami a form elemeket reprezentálja
 /**
  * @type {string}
