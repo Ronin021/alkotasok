@@ -76,34 +76,26 @@ form.addEventListener('submit', (event) => { // eseménykezelő, ami akkor fut l
     event.preventDefault(); // megakadályozza az alapértelmezett form elküldést
     const Objectvalue = {}; // létrehoz egy új objektumot, ami a form adatait tartalmazza
     let valid = true; // egy változó, ami azt jelzi, hogy az űrlap érvényes-e
-   
-   
-   
-   
     const bemenet = event.target.querySelectorAll('input'); // lekéri az összes input elemet a formból
     for (const input of bemenet) { // végigmegy az input elemek tömbjén
         const error = input.parentElement.querySelector('.error'); // lekéri a span elemet, ami az inputhoz tartozik
         if(!error){ // ha nincs error elem
             console.error('Nincs error elem'); // hibaüzenet a konzolra
-return; // kilép a függvényből
-    }
+            return; // kilép a függvényből
+        }
 
+        error.textContent = ''; // törli az error üzenetet
 
-    error.textContent = ''; // törli az error üzenetet
-
-    if (input.value === '') { // ha az input értéke üres
-        error.textContent = 'Kötelező mező'; // beállítja az error üzenetet
-        valid = false; // az űrlap nem érvényes
-
-    }
-    Objectvalue[input.id] = input.value; // beállítja az objektum mezőit az input elemek értékeivel
+        if (input.value === '') { // ha az input értéke üres
+            error.textContent = 'Kötelező mező'; // beállítja az error üzenetet
+            valid = false; // az űrlap nem érvényes
+        }
+        Objectvalue[input.id] = input.value; // beállítja az objektum mezőit az input elemek értékeivel
     }
 
     if (!valid) { // ha az űrlap nem érvényes
-    
-
-    
-
+        return;
+    }
 
     array.push(Objectvalue); // hozzáadja az objektumot a tömbhöz
 
@@ -121,11 +113,7 @@ return; // kilép a függvényből
     const cimTd = document.createElement('td'); // létrehoz egy új td elemet
     cimTd.innerText = Objectvalue.cim; // beállítja a td elem szövegét
     tableRow.appendChild(cimTd); // a tableRow-hoz hozzáadja a létrehozott td elemet
-}
-
-})
-
-
+});
 
 containerDiv.appendChild(tableDiv); // a containerDiv-hez hozzáadja a tableDiv elemet
 containerDiv.appendChild(formDiv); // a containerDiv-hez hozzáadja a formDiv elemet
@@ -144,14 +132,14 @@ Uploadinput.addEventListener('change', (event) => { // eseménykezelő, ami akko
         const noheader = filesor.slice(1); // eltávolítja az első sort (fejléc)
 
         for (const sor of noheader) { // végigmegy a sorokon
-            const clean = sor.trim; // eltávolítja a felesleges szóközöket
+            const clean = sor.trim(); // helyesen meghívja a trim() metódust
             const sorTomb = clean.split(';'); // a sort tömbbé alakítja
 
             const alkotasok = { // létrehoz egy új objektumot, ami a fájl sorait tartalmazza
                 szerzo: sorTomb[0], // beállítja az objektum mezőit a sor tömb elemeivel
                 mufaj: sorTomb[1],
                 cim: sorTomb[2]
-            }
+            };
 
             array.push(alkotasok); // hozzáadja az objektumot a tömbhöz
             const tableRow = document.createElement('tr'); // létrehoz egy új tr elemet
@@ -169,6 +157,6 @@ Uploadinput.addEventListener('change', (event) => { // eseménykezelő, ami akko
             cimTd.textContent = alkotasok.cim; // beállítja a td elem szövegét
             tableRow.appendChild(cimTd); // a tableRow-hoz hozzáadja a létrehozott td elemet
         }
-    }
+    };
     reader.readAsText(file); // beolvassa a fájlt szövegként
-})
+});
