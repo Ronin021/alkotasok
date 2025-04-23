@@ -23,13 +23,13 @@ class Manager { // A Manager osztály az adatokat kezeli
     #array;
 
     /**
-     * @type {Function} 
+     * @type {addSzerzoCallback} 
      * Egy privát callback függvény, amelyet új adat hozzáadásakor hívunk meg
      */
     #addSzerzoCallback;
 
     /**
-     * @type {Function}
+     * @type {renderTableCallback}
      * Egy privát callback függvény, amelyet a táblázat újrarenderelésére használunk
      */
     #renderTableCallback; // Egy privát callback függvény, amelyet a táblázat újrarenderelésére használunk
@@ -44,12 +44,17 @@ class Manager { // A Manager osztály az adatokat kezeli
 
     /**
      * Beállítja a callback függvényt, amelyet kívülről adunk meg
-     * @param {Function} callback - A callback függvény, amelyet új adat hozzáadásakor hívunk meg
+     * @param {addSzerzoCallback} callback - A callback függvény, amelyet új adat hozzáadásakor hívunk meg
      */
     setaddSzerzoCallback(callback) {
         this.#addSzerzoCallback = callback; // Eltároljuk a megadott callback függvényt a privát változóban
     }
 
+
+    /**
+     * 
+     * @param {renderTableCallback} callback - A callback függvény, amelyet a táblázat újrarenderelésére használunk 
+     */
     setRenderTableCallback(callback) {
         this.#renderTableCallback = callback; // Eltároljuk a megadott callback függvényt a privát változóban
     }
@@ -63,27 +68,10 @@ class Manager { // A Manager osztály az adatokat kezeli
         this.#addSzerzoCallback(szerzo); // Meghívjuk a callback függvényt az új adattal
     }
 
-    filter(callback) { // Szűrjük a privát tömböt a megadott callback függvény alapján
-        const filtered = [] // Létrehozunk egy új tömböt a szűrt elemek tárolására
-        for (const szerzo of this.#array) { // Végigiterálunk a privát tömb elemein
-            if (callback(szerzo)) { // Ha a callback függvény igazat ad vissza az adott elemre
-                filtered.push(szerzo); // Hozzáadjuk az elemet a szűrt tömbhöz
-            }
-        }
-        this.#renderTableCallback(filtered); // Meghívjuk a renderelő callback függvényt a szűrt tömbbel
-    }
-
-    /**
-     * Újrarendereli a táblázatot a privát tömb adataival
-     * @param {Adat} szerzo - Az új adat, amelyet hozzáadunk a listához
-     */
-    getArray() {
-        return [...this.#array]; // Visszaadjuk a privát tömb egy másolatát, hogy ne lehessen közvetlenül módosítani
-    }
-
     /**
      * 
-     * @returns {Adat[]} - Visszaadja a privát tömböt, amely az Adat típusú objektumokat tartalmazza
+     * @returns {string} - Visszaadja a privát tömb elemeit egy string formájában, amelyet a fájl letöltésére használunk
+     * A fájl tartalmazza a fejlécet és az adatokat, amelyeket pontosvesszővel választunk el
      */
     generateOutputStringForDownloader() {
         const contentTombManager = ['Szerző', 'Műfaj', 'Cím']; // A fejléc elemei
@@ -96,7 +84,7 @@ class Manager { // A Manager osztály az adatokat kezeli
     
 
     /**
-     * @param {Function} sorrend - A callback függvény, amelyet a szűréshez használunk
+     * @param {sorrend} sorrend - A callback függvény, amelyet a szűréshez használunk
      * @returns {Adat[]} - Visszaadja a szűrt tömböt, amely az Adat típusú objektumokat tartalmazza
      */
     Order(sorrend) { // Szűrjük a privát tömböt a megadott callback függvény alapján
@@ -116,6 +104,9 @@ class Manager { // A Manager osztály az adatokat kezeli
     this.#renderTableCallback(ordered); // Meghívjuk a renderelő callback függvényt a szűrt tömbbel
     }
 
+    /**
+     * @returns {void} - Visszaadja a privát tömböt
+     */
     renderBasic(){ // Újrarendereli a táblázatot a privát tömb adataival
         this.#renderTableCallback(this.#array); // Meghívjuk a renderelő callback függvényt a privát tömbbel
     }

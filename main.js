@@ -1,6 +1,7 @@
 /**
+ * @typedef {{szerzo:String, Mufaj:string, Cim:string}} alkotasok
  * Egy tömb, ami a könyvek adatait tartalmazza.
- * @type {Array<Object>}
+ * @type {alkotasok[]}
  */
 const array = []; // egy tömb, ami a könyvek adatait tartalmazza
 

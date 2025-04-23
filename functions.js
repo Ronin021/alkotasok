@@ -56,7 +56,7 @@ function tablaKrealas(container, callback) {
  * Létrehoz egy űrlapot a megadott táblázathoz és konténerhez.
  * @param {HTMLElement} tableBody - A táblázat törzse.
  * @param {HTMLElement} container - A konténer elem.
- * @param {Array<Object>} array - A könyvek adatait tartalmazó tömb.
+ * @param {alkotasok} array - A könyvek adatait tartalmazó tömb.
  */
 function createForm(tableBody, container, array) {
     const formDiv = makeDiv('form');
@@ -129,7 +129,7 @@ function createForm(tableBody, container, array) {
  * Létrehoz egy fájlfeltöltő funkciót.
  * @param {HTMLElement} tableBody - A táblázat törzse.
  * @param {HTMLElement} container - A konténer elem.
- * @param {Array<Object>} array - A könyvek adatait tartalmazó tömb.
+ * @param {alkotasok} array - A könyvek adatait tartalmazó tömb.
  */
 function createFileUploader(tableBody, container, array) {
     const uploadInput = document.createElement('input');
@@ -165,7 +165,7 @@ function createFileUploader(tableBody, container, array) {
 /**
  * Hozzáad egy fájl letöltési funkciót.
  * @param {HTMLElement} container - A konténer elem.
- * @param {Array<Object>} array - A könyvek adatait tartalmazó tömb.
+ * @param {alkotasok} array - A könyvek adatait tartalmazó tömb.
  */
 function fajlLetoltes(container, array) {
     const downloadButton = document.createElement('button');
