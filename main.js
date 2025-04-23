@@ -160,3 +160,26 @@ Uploadinput.addEventListener('change', (event) => { // eseménykezelő, ami akko
     };
     reader.readAsText(file); // beolvassa a fájlt szövegként
 });
+
+const letoltes = document.createElement('button'); // létrehoz egy új button elemet
+letoltes.textContent = 'Letoltes'; // beállítja a button szövegét
+containerDiv.appendChild(letoltes); // a containerDiv-hez hozzáadja a létrehozott button elemet
+
+letoltes.addEventListener('click', () => { // eseménykezelő, ami akkor fut le, amikor a gombra kattintanak
+    const link = document.createElement('a'); // létrehoz egy új a elemet
+
+    const contentTomb = ['szerző;műfaj;cím']; // létrehoz egy új tömböt, ami a fájl tartalmát tartalmazza
+
+    for (const sor of array) { // végigmegy a tömb elemein
+        contentTomb.push(`${sor.szerzo};${sor.mufaj};${sor.cim}`); // hozzáadja a sorokat a tömbhöz
+    }
+
+    const content = contentTomb.join('\n'); // a tömb elemeit összefűzi egy szöveggé
+
+    const blob = new Blob([content]); // létrehoz egy új Blob objektumot a szövegből
+
+    link.href = URL.createObjectURL(blob); // beállítja a link href attribútumát a Blob objektum URL-jére
+    link.download = 'letoltes.csv'; // beállítja a letöltési fájl nevét
+    link.click(); // rákattint a linkre, hogy letöltse a fájlt
+    URL.revokeObjectURL(link.href); // visszavonja az URL-t, hogy felszabadítsa a memóriát
+})
