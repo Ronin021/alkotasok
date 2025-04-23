@@ -36,4 +36,13 @@ class Manager { // A Manager osztály az adatokat kezeli
         this.#array.push(szerzo); // Hozzáadjuk az új adatot a privát tömbhöz
         this.#addSzerzoCallback(szerzo); // Meghívjuk a callback függvényt az új adattal
     }
-}
+
+    generateOutputStringForDownloader() {
+        const contentTombManager = ['Szerző', 'Műfaj', 'Cím']; // A fejléc elemei
+
+        for(const szerzo of this.#array) { // Végigiterálunk a privát tömb elemein
+            contentTombManager.push(`${szerzo.szerzo};${szerzo.mufaj};${szerzo.cim}`); // Hozzáadjuk a szerző nevét a fejléc tömbhöz
+                }
+                return contentTombManager.join('\n'); // Visszaadjuk a fejléc tömböt, amelyet új sorral választunk el
+            }
+    }

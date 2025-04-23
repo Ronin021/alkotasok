@@ -135,58 +135,40 @@ class Form extends Area{ // a Form osztály, ami öröklődik az Area osztályb�
         const form = document.createElement('form'); // létrehoz egy új form elemet
         this.div.appendChild(form); // a div-hez hozzáadja a létrehozott form elemet
 
-        
-
-        for (const field of Lista) { // végigmegy a lista elemein
-            
-            const fieldDiv = document.createElement('div'); // létrehoz egy új div elemet
-            form.appendChild(fieldDiv); // a form-hoz hozzáadja a létrehozott fieldDiv elemet
-
-            const label = document.createElement('label'); // létrehoz egy új label elemet
-            label.htmlFor = field.fieldid; // beállítja a label htmlFor attribútumát
-            label.textContent = field.fieldLabel; // beállítja a label szövegét
-            fieldDiv.appendChild(label); // a fieldDiv-hez hozzáadja a létrehozott label elemet
-
-            const input = document.createElement('input'); // létrehoz egy új input elemet
-            input.id = field.fieldid; // beállítja az input id attribútumát
-            fieldDiv.appendChild(document.createElement('br')); // létrehoz egy új br elemet és hozzáadja a fieldDiv-hez
-            fieldDiv.appendChild(input); // a fieldDiv-hez hozzáadja a létrehozott input elemet
+        for (const field of ListaOOP) { // végigmegy a lista elemein
+            const formField = new FormField(field.fieldid, field.fieldLabel); // létrehoz egy új FormField objektumot
+            this.#tombInput.push(formField); // hozzáadja a tombInput tömbhöz
+            form.appendChild(formField.getDiv()); // hozzáadja a form-hoz a FormField div-jét
         }
+
         const button = document.createElement('button'); // létrehoz egy új button elemet
         button.textContent = 'Hozzáadás'; // beállítja a button szövegét
-        form.appendChild(button); // a form-hoz hozzáadja a létrehozott button elemet
+        form.appendChild(button); // hozzáadja a form-hoz
 
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
 
-        form.addEventListener('submit', (event) => { // eseménykezelő, ami akkor hívódik meg, amikor a formot elküldik
-            event.preventDefault(); // megakadályozza az alapértelmezett űrlap elküldést
+            const ObjectvalueOOP = {}; // létrehoz egy új objektumot
+            let validOOP = true;
 
-            const ObjectvalueOOP = {}; // létrehoz egy új objektumot, ami a form adatait tartalmazza
-
-           let validOOP = true; // inicializálja a validOOP változót igazra
-            for (const errorfield of this.#tombInput) { // végigmegy a tombInput elemein
-
-                errorfield.error = ''; // törli a hiba üzenetet
-                if(errorfield.value === '') { // ha az input értéke üres
-                    errorfield.error = 'Kötelező mező!'; // beállítja a hiba üzenetet
-                    validOOP = false; // beállítja a validOOP változót hamisra
+            for (const errorfield of this.#tombInput) {
+                errorfield.error = ''; // törli a hibaüzenetet
+                if (errorfield.value === '') {
+                    errorfield.error = 'Kötelező mező!';
+                    validOOP = false;
                 }
-                ObjectvalueOOP[errorfield.id] = errorfield.value; // beállítja az objektum értékét az input értékére
+                ObjectvalueOOP[errorfield.id] = errorfield.value; // feltölti az objektumot
             }
 
-            if (validOOP) { // ha a validOOP változó igaz
-                const oopadat = new Adat(ObjectvalueOOP.szerzo, ObjectvalueOOP.mufaj, ObjectvalueOOP.cim); // létrehoz egy új Adat objektumot a megadott értékekkel
-                this.manager.addSzerzo(oopadat); // hozzáadja az új adatot a managerhez
+            if (validOOP) {
+                const oopadat = new Adat(ObjectvalueOOP.szerzo, ObjectvalueOOP.mufaj, ObjectvalueOOP.cim);
+                this.manager.addSzerzo(oopadat); // hozzáadja az adatot a managerhez
             }
-
-
-
-           
-        })
-
+        });
     }
 }
 
-class Uploader extends Area{ // a Uploader osztály, ami öröklődik az Area osztályból
+class UploaderAndDownloader extends Area{ // a Uploader osztály, ami öröklődik az Area osztályból
 /**
  * 
  * @param {string} CssClass - class név, amit a
@@ -217,6 +199,21 @@ class Uploader extends Area{ // a Uploader osztály, ami öröklődik az Area os
                 }
             }
             reader.readAsText(file); // beolvassa a fájlt szövegként
+        })
+
+        const downloader = document.createElement('button'); // létrehoz egy új button elemet
+        downloader.textContent = 'Letöltés'; // beállítja a button szövegét
+        this.div.appendChild(downloader); // a div-hez hozzáadja a létrehozott button elemet
+
+        downloader.addEventListener('click', () => { // eseménykezelő, ami akkor hívódik meg, amikor a gombra kattintanak
+            const link = document.createElement('a'); // létrehoz egy új a elemet
+            const fileContent = this.manager.generateOutputStringForDownloader(); // lekéri a fájl tartalmát a managerből
+            const blob = new Blob([fileContent]); // létrehoz egy új Blob objektumot a fájl tartalmával
+
+            link.href = URL.createObjectURL(blob); // beállítja a link href attribútumát a Blob objektum URL-jére
+            link.download = 'adatok.csv'; // beállítja a letöltési fájl nevét
+            link.click(); // rákattint a linkre, hogy letöltse a fájlt
+            URL.revokeObjectURL(link.href); // visszavonja az URL-t, hogy felszabadítsa a memóriát
         })
     }
 }
