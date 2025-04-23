@@ -129,3 +129,46 @@ return; // kilép a függvényből
 
 containerDiv.appendChild(tableDiv); // a containerDiv-hez hozzáadja a tableDiv elemet
 containerDiv.appendChild(formDiv); // a containerDiv-hez hozzáadja a formDiv elemet
+
+const Uploadinput = document.createElement('input'); // létrehoz egy új input elemet
+containerDiv.appendChild(Uploadinput); // a containerDiv-hez hozzáadja a létrehozott input elemet
+Uploadinput.id = 'inputfile'; // beállítja az input id attribútumát
+Uploadinput.type = 'file'; // beállítja az input típusát fájlra
+
+Uploadinput.addEventListener('change', (event) => { // eseménykezelő, ami akkor fut le, amikor a fájlt kiválasztják
+    const file = event.target.files[0]; // lekéri a kiválasztott fájlt
+    const reader = new FileReader(); // létrehoz egy új FileReader objektumot
+
+    reader.onload = () => { // eseménykezelő, ami akkor fut le, amikor a fájl betöltődött
+        const filesor = reader.result.split('\n'); // a fájl tartalmát sorokra bontja
+        const noheader = filesor.slice(1); // eltávolítja az első sort (fejléc)
+
+        for (const sor of noheader) { // végigmegy a sorokon
+            const clean = sor.trim; // eltávolítja a felesleges szóközöket
+            const sorTomb = clean.split(';'); // a sort tömbbé alakítja
+
+            const alkotasok = { // létrehoz egy új objektumot, ami a fájl sorait tartalmazza
+                szerzo: sorTomb[0], // beállítja az objektum mezőit a sor tömb elemeivel
+                mufaj: sorTomb[1],
+                cim: sorTomb[2]
+            }
+
+            array.push(alkotasok); // hozzáadja az objektumot a tömbhöz
+            const tableRow = document.createElement('tr'); // létrehoz egy új tr elemet
+            tableBody.appendChild(tableRow); // a tableBody-hoz hozzáadja a létrehozott tr elemet
+
+            const szerzoTd = document.createElement('td'); // létrehoz egy új td elemet
+            szerzoTd.textContent = alkotasok.szerzo; // beállítja a td elem szövegét
+            tableRow.appendChild(szerzoTd); // a tableRow-hoz hozzáadja a létrehozott td elemet
+
+            const mufajTd = document.createElement('td'); // létrehoz egy új td elemet
+            mufajTd.textContent = alkotasok.mufaj; // beállítja a td elem szövegét
+            tableRow.appendChild(mufajTd); // a tableRow-hoz hozzáadja a létrehozott td elemet
+
+            const cimTd = document.createElement('td'); // létrehoz egy új td elemet
+            cimTd.textContent = alkotasok.cim; // beállítja a td elem szövegét
+            tableRow.appendChild(cimTd); // a tableRow-hoz hozzáadja a létrehozott td elemet
+        }
+    }
+    reader.readAsText(file); // beolvassa a fájlt szövegként
+})
