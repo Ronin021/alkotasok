@@ -1,5 +1,5 @@
 /**
- * @typedef {{szerzo:String, Mufaj:string, Cim:string}} alkotas
+ * @typedef {{szerzo:String, Mufaj:string, Cim:string}} array
  * Egy tömb, ami a könyvek adatait tartalmazza.
  * @type {array[]} - A tömb típusa, amely a könyvek adatait tartalmazza
  */
