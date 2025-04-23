@@ -11,3 +11,4 @@ const manager = new Manager(); // létrehoz egy új Manager objektumot
 const table = new Table('table', manager); // átadja a manager objektumot a Table konstruktorának
 const oopForm = new Form('form', ListaOOP, manager); // átadja a manager objektumot a Form konstruktorának
 const uploaderOOP = new UploaderAndDownloader('uploader', manager); // átadja a manager objektumot az UploaderAndDownloader konstruktorának
+const filterOOP = new Filter('filter', manager); // átadja a manager objektumot a Filter konstruktorának

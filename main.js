@@ -13,5 +13,7 @@ tablaKrealas(containerDiv, (bodyOfTable) => {
     createForm(bodyOfTable, containerDiv, array); // létrehoz egy űrlapot
     createFileUploader(bodyOfTable, containerDiv, array); // létrehoz egy fájlfeltöltő funkciót
     fajlLetoltes(containerDiv, array); // hozzáad egy letöltési funkciót
+    szuresSima(containerDiv, array, bodyOfTable); // hozzáadja a szűrési funkciót
 });
+
 

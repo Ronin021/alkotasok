@@ -72,23 +72,36 @@ class Table extends Area{ // a Table osztály, ami öröklődik az Area osztály
     
 
     this.manager.setaddSzerzoCallback((adatok) => { // beállítja a callback függvényt, ami új adat hozzáadásakor hívódik meg
-
-        const row = document.createElement('tr'); // létrehoz egy új tr elemet
-        tabla.appendChild(row); // a table-hez hozzáadja a létrehozott tr elemet
-        const cell1 = document.createElement('td'); // létrehoz egy új td elemet
-        cell1.innerText = adatok.szerzo; // beállítja a td elem szövegét
-        row.appendChild(cell1); // a row-hoz hozzáadja a létrehozott td elemet
-
-        const cell2 = document.createElement('td'); // létrehoz egy új td elemet
-        cell2.innerText = adatok.mufaj; // beállítja a td elem szövegét
-        row.appendChild(cell2); // a row-hoz hozzáadja a létrehozott td elemet
-
-        const cell3 = document.createElement('td'); // létrehoz egy új td elemet
-        cell3.innerText = adatok.cim; // beállítja a td elem szövegét
-        row.appendChild(cell3); // a row-hoz hozzáadja a létrehozott td elemet
+this.#createRows(tabla, adatok); // meghívja a createRows() függvényt, ami létrehozza a sorokat a táblázatban
     })
+
+    this.manager.setRenderTableCallback((adatokTomb) => {
+        // Töröld a teljes táblázatot
+        tabla.innerHTML = '';
+        // Minden adatból hozz létre sort
+        for (const adatok of adatokTomb) {
+            this.#createRows(tabla, adatok);
+        }
+    });
 }
 
+#createRows(tabla, adatok){ // egy privát függvény, ami létrehozza a sorokat a táblázatban
+
+    const row = document.createElement('tr'); // létrehoz egy új tr elemet
+    tabla.appendChild(row); // a table-hez hozzáadja a létrehozott tr elemet
+    const cell1 = document.createElement('td'); // létrehoz egy új td elemet
+    cell1.innerText = adatok.szerzo; // beállítja a td elem szövegét
+    row.appendChild(cell1); // a row-hoz hozzáadja a létrehozott td elemet
+
+    const cell2 = document.createElement('td'); // létrehoz egy új td elemet
+    cell2.innerText = adatok.mufaj; // beállítja a td elem szövegét
+    row.appendChild(cell2); // a row-hoz hozzáadja a létrehozott td elemet
+
+    const cell3 = document.createElement('td'); // létrehoz egy új td elemet
+    cell3.innerText = adatok.cim; // beállítja a td elem szövegét
+    row.appendChild(cell3); // a row-hoz hozzáadja a létrehozott td elemet
+
+}
 
 /**
  * @returns {HTMLElement} - visszaadja a table elemet

@@ -188,3 +188,82 @@ function fajlLetoltes(container, array) {
     });
 }
 
+/**
+ * Hozzáad egy sort a táblázat törzséhez.
+ * @param {Object} rowData - Az adat, amelyet hozzáadunk a táblázathoz.
+ * @param {HTMLElement} tableBody - A táblázat törzse, amelyhez a sort hozzáadjuk.
+ */
+function addRow(rowData, tableBody) {
+    const tableRow = document.createElement('tr'); // Létrehoz egy új tr elemet
+    tableBody.appendChild(tableRow); // A táblázat törzséhez hozzáadja a sort
+
+    for (const key of ['szerzo', 'mufaj', 'cim']) { // Végigiterál az adat kulcsain
+        const td = document.createElement('td'); // Létrehoz egy új td elemet
+        td.innerText = rowData[key]; // Beállítja a td elem szövegét
+        tableRow.appendChild(td); // A sorhoz hozzáadja a cellát
+    }
+}
+
+const szuresSima = (containerDiv, array, tableBody) => {
+
+    const szurtDivForm = makeDiv('szurtDivForForm'); // létrehoz egy új div elemet a 'szurtDivForForm' class névvel
+    containerDiv.appendChild(szurtDivForm); // a containerDiv-hez hozzáadja a szurtDivForm elemet
+
+    const szurtForm = document.createElement('form'); // létrehoz egy új form elemet
+    szurtDivForm.appendChild(szurtForm); // a szurtDivForm-hoz hozzáadja a szurtForm elemet
+
+    const select = document.createElement('select'); // létrehoz egy új select elemet
+    szurtForm.appendChild(select); // a szurtForm-hoz hozzáadja a select elemet
+
+    const options = [
+        { value: '', label: 'Üres' },
+        { value: 'szerzo', label: 'Szerző' },
+        { value: 'mufaj', label: 'Műfaj' },
+        { value: 'cim', label: 'Cím' } // a select elemhez hozzáadja az opciókat
+    ];
+
+    for (const option of options) { // végigiterál az opciókon
+        const opt = document.createElement('option'); // létrehoz egy új option elemet
+        opt.value = option.value; // beállítja az option értékét
+        opt.textContent = option.label; // beállítja az option szövegét
+        select.appendChild(opt); // a select elemhez hozzáadja az option elemet
+    }
+
+    const szurtButton = document.createElement('button'); // létrehoz egy új button elemet
+    szurtButton.textContent = 'Szűrés'; // beállítja a button szövegét
+    szurtForm.appendChild(szurtButton); // a szurtForm-hoz hozzáadja a button elemet
+
+    szurtForm.addEventListener('submit', (event) => { // eseménykezelő a form submit eseményére
+        event.preventDefault(); // megakadályozza az alapértelmezett űrlap elküldést
+        const selectedValue = select.value; // lekéri a kiválasztott értéket a select elemből
+
+        const orderedArray = [...array]; // lekéri a manager objektumból az adatokat
+
+        if (selectedValue === '') { // ha a kiválasztott érték üres
+            tableBody.innerHTML = ''; // törli a táblázat törzsét
+            for (const szerzo of orderedArray) { // végigiterál az adatokat tartalmazó tömbön
+                addRow(szerzo, tableBody); // hozzáadja az adatokat a táblázathoz
+            }
+        }else { // ha a kiválasztott érték nem üres
+            const order = orderedArray.length; // lekéri a tömb hosszát
+
+            for (let i = 0; i < order; i++) { // végigiterál a tömb elemein
+                for (let j = i + 1; j < order; j++) { // végigiterál a tömb elemein
+                    if (orderedArray[i][selectedValue] > orderedArray[j][selectedValue]) { // ha az i-edik elem nagyobb mint a j-edik elem
+                        const temp = orderedArray[i]; // eltárolja az i-edik elemet egy ideiglenes változóban
+                        orderedArray[i] = orderedArray[j]; // az i-edik elemet a j-edik elemre cseréli
+                        orderedArray[j] = temp; // a j-edik elemet az ideiglenes változóra cseréli
+                    }
+                }
+            }
+            tableBody.innerHTML = ''; // törli a táblázat törzsét
+            for (const szerzo of orderedArray) { // végigiterál az adatokat tartalmazó tömbön
+                addRow(szerzo, tableBody); // hozzáadja az adatokat a táblázathoz
+            }
+        }
+    })
+}
+
+
+
+
